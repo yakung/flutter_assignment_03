@@ -47,13 +47,10 @@ class TaskState extends State<Task> {
     );
   }
     Widget buildList(List<DocumentSnapshot> data) {
-    return ListView.builder(
+    return data.length == 0 ? Center(child: Text("No data found...")): ListView.builder(
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
-        return data.length == 0 ? Center(
-          child: Text("No data found...")
-          )
-           :CheckboxListTile(
+        return CheckboxListTile(
           title: Text(data.elementAt(index).data["title"]), 
           onChanged: (bool value) {
             setState(() {
@@ -66,7 +63,7 @@ class TaskState extends State<Task> {
                       'done': 1
                     });
             });
-          }, value: data.elementAt(index).data["done"] != 0,
+          }, value: data.elementAt(index).data['done'] != 0,
         );
       },
     );
