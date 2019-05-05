@@ -50,15 +50,23 @@ class TaskState extends State<Task> {
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
-        return CheckboxListTile(
+        return data.length == 0 ? Center(
+          child: Text("No data found...")
+          )
+           :CheckboxListTile(
           title: Text(data.elementAt(index).data["title"]), 
           onChanged: (bool value) {
             setState(() {
-             Firestore.instance.collection("todo").document().setData({
-               "done":1
-             });
+              Firestore.instance
+                        .collection('todo')
+                        .document(
+                            data.elementAt(index).documentID)
+                        .setData({
+                      'title':data.elementAt(index).data['title'],
+                      'done': 1
+                    });
             });
-          }, value: data.elementAt(index).data["done"],
+          }, value: data.elementAt(index).data["done"] != 0,
         );
       },
     );

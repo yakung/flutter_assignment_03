@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Addform extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -42,13 +43,13 @@ class AddformState extends State<Addform> {
                 child: Text("Save",style: TextStyle(fontSize: 15),),
                 onPressed: ()  {
                   if(_formkey.currentState.validate()){
-                    Firestore.instance
-                        .collection('todo').add(
-                          {"title": txtctrl,
-                            "done": "0"
-                          }
-                        );
-                        Navigator.pushReplacementNamed(context, '/');
+                    Firestore.instance.collection('todo').add({
+                      'title': txtctrl.text,
+                      'done':0,
+                    }).then((value){
+                      
+                      Navigator.pushReplacementNamed(context, '/');
+                    });
                   }
                 },
               ),
